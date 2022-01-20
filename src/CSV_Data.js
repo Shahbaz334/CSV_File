@@ -3,15 +3,13 @@ import { useState } from 'react';
 import logo from './cat.jpg'
 import cross from './cross.png';
 import { CSVLink } from "react-csv";
-import {  Link } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 function Post() {
     const [show, setShow] = useState(false);
     const [FirstName, setFirstName] = useState('')
     const [LastName, setLastName] = useState('')
     const [Email, setEmail] = useState('')
     const [Age, setAge] = useState('')
-
     const [isUpdate, setIsUpdate] = useState(false)
     const [id, setId] = useState(-2)
     const [data, setData] = useState([])
@@ -20,29 +18,28 @@ function Post() {
         { label: "Last Name", key: "lastName" },
         { label: "Email", key: "email" },
         { label: "Age", key: "age" }
-      ];
-      const csvReport = {
+    ];
+    const csvReport = {
         data: data,
         headers: headers,
         filename: 'Report.csv'
-      };
+    };
     const createData = (obj) => {
-        if(id){
+        if (id) {
             const temp = data;
             const index = data.findIndex(item => item.id == id)
             temp[index] = { ...temp[index], ...obj }
             setData(temp)
             setIsUpdate(false)
             setId('')
-
-        }else{
+        } 
+        else {
             setData([obj, ...data])
             setFirstName("")
             setLastName("")
             setEmail("")
             setAge("")
         }
-       
     }
     const updateData = (obj) => {
         setFirstName(obj.FirstName)
@@ -52,14 +49,10 @@ function Post() {
         setId(obj.id)
         setIsUpdate(true)
     }
-
     const deleteData = (id) => {
         setData(data.filter(item => item.id != id))
     }
-
-
     return (
-
         <div>
             <div className="container" style={{ borderWidth: 5, borderColor: 'black' }}>
                 <div className="row">
@@ -69,10 +62,8 @@ function Post() {
                                 <img src={logo} />
                             </div>
                             <div className="text" onClick={() => setShow(true)}>
-
                                 <input type="text" placeholder="What's on your mind" />
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -119,22 +110,22 @@ function Post() {
                             </div>
                             <div className='Button'>
                                 <button
-                                    className="btn btn-primary" onClick={() =>createData({
-                                        firstName: FirstName ,
-                                      lastName:LastName,
-                                        email:Email,
-                                        age:Age,
+                                    className="btn btn-primary" onClick={() => createData({
+                                        firstName: FirstName,
+                                        lastName: LastName,
+                                        email: Email,
+                                        age: Age,
                                         id: Math.random()
-                                    })}>{isUpdate ? "Update": "Submit"}</button>
+                                    })}>{isUpdate ? "Update" : "Submit"}</button>
                             </div>
                         </div>
                     </div>
                     : null}
             </div>
-            <Link style={{marginLeft:'20%'}} to="/import">ImportCSV</Link>
-            <span style={{marginLeft:'50%',borderWidth:2,borderRadius:30}}>
-      <CSVLink {...csvReport}>Export to CSV</CSVLink>
-      </span>
+            <Link style={{ marginLeft: '20%' }} to="/import">ImportCSV</Link>
+            <span style={{ marginLeft: '50%', borderWidth: 2, borderRadius: 30 }}>
+                <CSVLink {...csvReport}>Export to CSV</CSVLink>
+            </span>
             <table>
                 <tbody>
                     {data?.map((item, index) => (
@@ -151,7 +142,6 @@ function Post() {
                             </td>
                         </tr>
                     ))}
-
                 </tbody>
             </table>
         </div>
